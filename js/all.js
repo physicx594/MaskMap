@@ -1,8 +1,8 @@
 //設定一個地圖，綁在#map上，
 //定位 center 座標及 zoom 縮放大小(0~18 數字越小，縮越小)
 var map = L.map("map", {
-  // center: [25.069859, 121.638958],
-  zoom: 18,
+  center: [25.0634467, 121.590849],
+  zoom: 15,
 });
 
 //你要用誰的圖資
@@ -23,6 +23,13 @@ fetch(
     var data = res.features;
     fetchData(data);
     mapInformation(data);
+    // 臺北市的資料
+    const storeData = data.filter((value) =>
+      value.properties.address.match(selectedCity)
+    );
+    upDataCounty(data);
+    upDataSidebar(storeData);
+    upDataTown(data);
   })
   .catch((err) => {
     console.log("抓不到資料");
@@ -34,58 +41,34 @@ const sideWeek = document.querySelector(".sideWeek");
 const sideDate = document.querySelector(".sideDate");
 const sideId = document.querySelector(".sideId");
 const selectCity = document.querySelector(".selectCity");
-const selectLocation = document.querySelector(".selectLocation");
+const selectTown = document.querySelector(".selectTown");
 const sideCard = document.querySelector(".sideCard");
 const search = document.querySelector(".search");
 let selectedCity = "臺北市";
 let selectedLocation = "全部地區";
 
-function fetchData(data) {
-  // 預設資料 - 縣市、地區
-  let cityStr = `<option data-num="20"value=${selectedCity}>${selectedCity}</option>`;
-  let locationStr = `<option data-num=""value=${selectedLocation}>${selectedLocation}</option>`;
-
-  //篩選縣市
+const upDataCounty = (importData) => {
   let cityArr = [];
-  for (let i = 0; i < data.length; i++) {
-    CityData = data[i].properties.county;
-    cityArr.push(CityData);
-  }
-
-  let cityFilter = cityArr.filter((item, index, arr) => {
-    return arr.indexOf(item) === index && item != "";
+  importData.filter((value) => {
+    if (value.properties.county != selectedCity && value.properties.county)
+      cityArr.push(value.properties.county);
   });
-
-  cityFilter.filter((value, keys) => {
-    if (value != "臺北市") {
-      cityStr += `<option data-num="${keys}" value="${value}">${value}</option>`;
-    }
-  });
-  let taipeiArr = [];
-  data.filter((value) => {
-    if (
-      value.properties.address.match("臺北市") &&
-      value.properties.town != ""
-    ) {
-      return taipeiArr.push(value.properties.town);
-    }
-  });
-  let taipeiFilter = taipeiArr.filter((item, index, arr) => {
+  const cityData = cityArr.filter((item, index, arr) => {
     return arr.indexOf(item) === index;
   });
-  taipeiFilter.filter((value, keys) => {
-    locationStr += `<option data-num="${keys}" value="${value}">${value}</option>`;
+
+  let str = `<option value="${selectedCity}">${selectedCity}</option>`;
+  cityData.forEach((value) => {
+    str += `
+    <option value="${value}">
+    ${value}</option>`;
   });
+  selectCity.innerHTML = str;
+};
 
-  selectCity.innerHTML = cityStr;
-  selectLocation.innerHTML = locationStr;
-
+const upDataSidebar = (importData) => {
   let str = "";
-  let strData = data.filter((value) => {
-    return value.properties.county === selectedCity;
-  });
-
-  strData.filter((value) => {
+  importData.forEach((value) => {
     // 數量顏色
     var adultMaskColor = (() => {
       if (value.properties.mask_adult === 0) {
@@ -98,254 +81,155 @@ function fetchData(data) {
       } else return "maskChild";
     })();
     str += `<li>
-            <div class="cardTop">
-              <h1>${value.properties.name}</h1>
-              <a class="clickMe fas fa-map-marker-alt fa-2x" data-lat = "${value.geometry.coordinates[1]}"data-lng = "${value.geometry.coordinates[0]}"></a>
-            </div>
-            <p>${value.properties.address}</p>
-            <p>${value.properties.phone}</p>
-            <p>${value.properties.note}</p>
-            <p>更新時間 : ${value.properties.updated}</p>
-            <div class="maskNum">
-                <div class="${adultMaskColor}">成人 <span>${value.properties.mask_adult}</span></div>
-                <div class="${childMaskColor}">兒童 ${value.properties.mask_child}</div>
-            </div>
-        </li>`;
-    map.setView([25.0634467, 121.590849], 15);
+    <div class="cardTop">
+      <h1>${value.properties.name}</h1>
+      <a class="clickMe fas fa-map-marker-alt fa-2x" data-lat = "${value.geometry.coordinates[1]}"data-lng = "${value.geometry.coordinates[0]}"></a>
+    </div>
+    <p>${value.properties.address}</p>
+    <p>${value.properties.phone}</p>
+    <p>${value.properties.note}</p>
+    <p>更新時間 : ${value.properties.updated}</p>
+    <div class="maskNum">
+    <div class="${adultMaskColor}">成人 <span>${value.properties.mask_adult}</span></div>
+    <div class="${childMaskColor}">兒童 ${value.properties.mask_child}</div>
+</div>
+</li>`;
   });
   sideCard.innerHTML = str;
+};
+const upDataTown = (importData) => {
+  let townArr = [];
+  importData.filter((value) => {
+    if (value.properties.county === selectedCity)
+      townArr.push(value.properties.town);
+  });
+  const townData = townArr.filter((item, index, arr) => {
+    return arr.indexOf(item) === index;
+  });
 
-  // 縣市選單
+  let str = `<option value="${selectedLocation}">${selectedLocation}</option>`;
+  townData.forEach((value) => {
+    str += `
+    <option value='${value}'>
+    ${value}</option>
+    `;
+  });
+  selectTown.innerHTML = str;
+};
+
+// 資料互動
+function fetchData(data) {
+  // city 選單
   function changeCity(e) {
-    let changeCityStr = "";
-    locationStr = "";
-    locationStr = `<option data-num=""value=${selectedLocation}>${selectedLocation}</option>`;
-    let locationArr = [];
     selectedCity = e.target.value;
-    var selectedCityData = data.filter((value) => {
-      return selectedCity === value.properties.county;
+    const townData = data.filter((value) => {
+      return value.properties.county === selectedCity;
     });
-    for (let i = 0; i < selectedCityData.length; i++) {
-      townData = selectedCityData[i].properties.town;
-      locationArr.push(townData);
+    const storeData = data.filter((value) => {
+      return value.properties.address.match(selectedCity);
+    });
+    upDataTown(townData);
+    if (storeData.length === 0) {
+      alert("查無資料");
+    } else {
+      const lat = storeData[0].geometry.coordinates[1];
+      const lng = storeData[0].geometry.coordinates[0];
+      upDataSidebar(storeData);
+      changeToMarker(lat, lng);
     }
-    let fliterLocationArr = locationArr.filter((item, index, arr) => {
-      return arr.indexOf(item) === index;
-    });
-    fliterLocationArr.filter((value) => {
-      locationStr += `<option  value="${value}">${value}</option>`;
-    });
-    selectLocation.innerHTML = locationStr;
-
-    selectedCityData.filter((value) => {
-      // 數量顏色
-      var adultMaskColor = (() => {
-        if (value.properties.mask_adult === 0) {
-          return "maskNone";
-        } else return "maskAdult";
-      })();
-      var childMaskColor = (() => {
-        if (value.properties.mask_child === 0) {
-          return "maskNone";
-        } else return "maskChild";
-      })();
-      changeCityStr += `<li>
-              <div class="cardTop">
-                <h1>${value.properties.name}</h1>
-                <a class="clickMe fas fa-map-marker-alt fa-2x" data-lat = "${value.geometry.coordinates[1]}"data-lng = "${value.geometry.coordinates[0]}"></a>
-                </div>
-              <p>${value.properties.address}</p>
-              <p>${value.properties.phone}</p>
-              <p>${value.properties.note}</p>
-              <p>更新時間 : ${value.properties.updated}</p>
-              <div class="maskNum">
-                  <div class="${adultMaskColor}">成人 ${value.properties.mask_adult}</div>
-                  <div class="${childMaskColor}">兒童 ${value.properties.mask_child}</div>
-              </div>
-          </li>`;
-      map.setView(
-        [value.geometry.coordinates[1], value.geometry.coordinates[0]],
-        15
-      );
-    });
-    sideCard.innerHTML = changeCityStr;
   }
-  // 地區選單
+  // town 選單
   function changeTown(e) {
-    let changeTownStr = "";
-    let TownData = data.filter((value) => {
-      return value.properties.town === e.target.value && value.properties.address.match(selectCity.value);
-    });
-    
-    if (e.target.value === selectedLocation) {
-      let allTown = data.filter((item) => {
-        return item.properties.address.match(selectCity.value);
-      });
-      allTown.filter((value) => {
-        // 數量顏色
-        var adultMaskColor = (() => {
-          if (value.properties.mask_adult === 0) {
-            return "maskNone";
-          } else return "maskAdult";
-        })();
-        var childMaskColor = (() => {
-          if (value.properties.mask_child === 0) {
-            return "maskNone";
-          } else return "maskChild";
-        })();
-        changeTownStr += `<li>
-      <div class="cardTop">
-        <h1>${value.properties.name}</h1>
-        <a class="clickMe fas fa-map-marker-alt fa-2x" data-lat = "${value.geometry.coordinates[1]}"data-lng = "${value.geometry.coordinates[0]}"></a>
-        </div>
-      <p>${value.properties.address}</p>
-      <p>${value.properties.phone}</p>
-      <p>${value.properties.note}</p>
-      <p>更新時間 : ${value.properties.updated}</p>
-      <div class="maskNum">
-          <div class="${adultMaskColor}">成人 ${value.properties.mask_adult}</div>
-          <div class="${childMaskColor}">兒童 ${value.properties.mask_child}</div>
-      </div>
-  </li>`;
-      });
-    }
-    TownData.filter((value) => {
-      // 數量顏色
-      var adultMaskColor = (() => {
-        if (value.properties.mask_adult === 0) {
-          return "maskNone";
-        } else return "maskAdult";
-      })();
-      var childMaskColor = (() => {
-        if (value.properties.mask_child === 0) {
-          return "maskNone";
-        } else return "maskChild";
-      })();
-      changeTownStr += `<li>
-        <div class="cardTop">
-        <h1>${value.properties.name}</h1>
-        <a class="clickMe fas fa-map-marker-alt fa-2x" data-lat = "${value.geometry.coordinates[1]}"data-lng = "${value.geometry.coordinates[0]}"></a>
-        </div>
-      <p>${value.properties.address}</p>
-      <p>${value.properties.phone}</p>
-      <p>${value.properties.note}</p>
-      <p>更新時間 : ${value.properties.updated}</p>
-      <div class="maskNum">
-          <div class="${adultMaskColor}">成人 ${value.properties.mask_adult}</div>
-          <div class="${childMaskColor}">兒童 ${value.properties.mask_child}</div>
-      </div>
-  </li>`;
-      map.setView(
-        [value.geometry.coordinates[1], value.geometry.coordinates[0]],
-        18
+    if (e.target.value === "全部地區") {
+      const storeData = data.filter(
+        (value) => value.properties.county === selectCity.value
       );
-    });
-    sideCard.innerHTML = changeTownStr;
+      const lat = storeData[0].geometry.coordinates[1];
+      const lng = storeData[0].geometry.coordinates[0];
+      upDataSidebar(storeData);
+      changeToMarker(lat, lng);
+    } else {
+      const locationName = selectCity.value + e.target.value;
+      const storeData = data.filter((value) =>
+        value.properties.address.match(locationName)
+      );
+      const lat = storeData[0].geometry.coordinates[1];
+      const lng = storeData[0].geometry.coordinates[0];
+      upDataSidebar(storeData);
+      changeToMarker(lat, lng);
+    }
   }
-  // 地址搜尋
+  // address 搜尋
   function searchAddress(e) {
-    let addressALLStr = "";
-    let content = search.value;
-    let addressALL = {};
-
-    addressALL = data.filter((value) => {
-      return value.properties.address.match(content);
-    });
+    const storeData = data.filter((value) =>
+      value.properties.address.match(search.value)
+    );
     if (event.keyCode === 13) {
-      if (content.length === 0 || content == " ") {
-        alert("請輸入地址資料");
+      if (search.value.length == 0 || search.value == " ") {
+        alert("請輸入正確");
         return;
-      } else if (addressALL == {} || addressALL.length == 0) {
+      } else if (storeData.length == 0) {
         alert("查無資料");
         return;
       } else {
-        addressALL.filter((value) => {
-          // 數量顏色
-          var adultMaskColor = (() => {
-            if (value.properties.mask_adult === 0) {
-              return "maskNone";
-            } else return "maskAdult";
-          })();
-          var childMaskColor = (() => {
-            if (value.properties.mask_child === 0) {
-              return "maskNone";
-            } else return "maskChild";
-          })();
-          addressALLStr += `<li>
-            <div class="cardTop">
-            <h1>${value.properties.name}</h1>
-            <a class="clickMe fas fa-map-marker-alt fa-2x" data-lat = "${value.geometry.coordinates[1]}"data-lng = "${value.geometry.coordinates[0]}"></a>
-            </div>
-    
-                <p>${value.properties.address}</p>
-                <p>${value.properties.phone}</p>
-                <p>${value.properties.note}</p>
-                <p>更新時間 : ${value.properties.updated}</p>
-                <div class="maskNum">
-                    <div class="${adultMaskColor}">成人 <span>${value.properties.mask_adult}</span></div>
-                    <div class="${childMaskColor}">兒童 ${value.properties.mask_child}</div>
-                </div>
-            </li>`;
-          map.setView(
-            [value.geometry.coordinates[1], value.geometry.coordinates[0]],
-            18
-          );
-
-        });
-        sideCard.innerHTML = addressALLStr;
-        search.value = ""
-        return
+        const lat = storeData[0].geometry.coordinates[1];
+        const lng = storeData[0].geometry.coordinates[0];
+        upDataSidebar(storeData);
+        changeToMarker(lat, lng);
       }
     }
   }
-  // 點擊移動至店家
-  function moveMap(e) {
-    if (e.target.nodeName == "A")
-      map.setView([e.target.dataset.lat, e.target.dataset.lng], 18);
+  // 資料互動後移動至 marker
+  const changeToMarker = (lat, lng)=>{
+    map.setView([lat, lng], 15);
   }
-
-  search.addEventListener("keyup", searchAddress);
-  selectLocation.addEventListener("change", changeTown);
   selectCity.addEventListener("change", changeCity);
-  sideCard.addEventListener("click", moveMap);
+  selectTown.addEventListener("change", changeTown);
+  search.addEventListener("keyup", searchAddress);
 }
 
-// 地圖店家資訊
+// 點擊移動至店家
+function moveMap(e) {
+  if (e.target.nodeName == "A")
+    map.setView([e.target.dataset.lat, e.target.dataset.lng], 18);
+}
+
+// 地圖 店家資訊
 function mapInformation(data) {
   data.filter((value) => {
-    // const iconColor = (() => {
-    //   if (value.properties.mask_adult > 0 && value.properties.mask_child > 0) {
-    //     return new L.Icon({
-    //       iconUrl:
-    //         "https://cdn.rawgit.com/pointhi/leaflet-color-markers/master/img/marker-icon-2x-blue.png",
-    //       shadowUrl:
-    //         "https://cdnjs.cloudflare.com/ajax/libs/leaflet/0.7.7/images/marker-shadow.png",
-    //       iconSize: [25, 41],
-    //       iconAnchor: [12, 41],
-    //       popupAnchor: [1, -34],
-    //     });
-    //   }
-    //   if (value.properties.mask_adult === 0 && value.properties.mask_child === 0) {
-    //     return new L.Icon({
-    //       iconUrl:
-    //         "https://cdn.rawgit.com/pointhi/leaflet-color-markers/master/img/marker-icon-2x-grey.png",
-    //       shadowUrl:
-    //         "https://cdnjs.cloudflare.com/ajax/libs/leaflet/0.7.7/images/marker-shadow.png",
-    //       iconSize: [25, 41],
-    //       iconAnchor: [12, 41],
-    //       popupAnchor: [1, -34],
-    //     });
-    //   }
-    //   return new L.Icon({
-    //     iconUrl:
-    //       "https://cdn.rawgit.com/pointhi/leaflet-color-markers/master/img/marker-icon-2x-red.png",
-    //     shadowUrl:
-    //       "https://cdnjs.cloudflare.com/ajax/libs/leaflet/0.7.7/images/marker-shadow.png",
-    //     iconSize: [25, 41],
-    //     iconAnchor: [12, 41],
-    //     popupAnchor: [1, -34],
-    //   });
-    // })();
+    const iconColor = (() => {
+      if (value.properties.mask_adult > 0 && value.properties.mask_child > 0) {
+        return new L.Icon({
+          iconUrl:
+            "https://cdn.rawgit.com/pointhi/leaflet-color-markers/master/img/marker-icon-2x-blue.png",
+          shadowUrl:
+            "https://cdnjs.cloudflare.com/ajax/libs/leaflet/0.7.7/images/marker-shadow.png",
+          iconSize: [25, 41],
+          iconAnchor: [12, 41],
+          popupAnchor: [1, -34],
+        });
+      }
+      if (value.properties.mask_adult === 0 && value.properties.mask_child === 0) {
+        return new L.Icon({
+          iconUrl:
+            "https://cdn.rawgit.com/pointhi/leaflet-color-markers/master/img/marker-icon-2x-grey.png",
+          shadowUrl:
+            "https://cdnjs.cloudflare.com/ajax/libs/leaflet/0.7.7/images/marker-shadow.png",
+          iconSize: [25, 41],
+          iconAnchor: [12, 41],
+          popupAnchor: [1, -34],
+        });
+      }
+      return new L.Icon({
+        iconUrl:
+          "https://cdn.rawgit.com/pointhi/leaflet-color-markers/master/img/marker-icon-2x-red.png",
+        shadowUrl:
+          "https://cdnjs.cloudflare.com/ajax/libs/leaflet/0.7.7/images/marker-shadow.png",
+        iconSize: [25, 41],
+        iconAnchor: [12, 41],
+        popupAnchor: [1, -34],
+      });
+    })();
     // 數量顏色
     var adultMaskColor = (() => {
       if (value.properties.mask_adult === 0) {
@@ -359,7 +243,7 @@ function mapInformation(data) {
     })();
     markers.addLayer(
       L.marker([value.geometry.coordinates[1], value.geometry.coordinates[0]], {
-        icon: greenIcon,
+        icon: iconColor,
       }).bindPopup(
         `<p style="font-size: 16px; font-weight: bold;
           ">${value.properties.name}</p>
@@ -375,7 +259,7 @@ function mapInformation(data) {
     );
   });
 }
-// 日期相關
+// 日期資料
 const getWeekAndIdNum = (() => {
   let day = new Date();
   let today = day.getDay();
@@ -425,3 +309,5 @@ var greenIcon = new L.Icon({
   popupAnchor: [1, -41],
   shadowSize: [100, 41],
 });
+
+sideCard.addEventListener("click", moveMap);
