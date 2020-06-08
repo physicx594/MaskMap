@@ -62,6 +62,10 @@ table {
   font-family: "Microsoft JhengHei";
 }
 
+.mapWrap p {
+  margin: 5px 0 0 0;
+}
+
 .mapWrap .mapSide {
   width: 420px;
 }
@@ -100,7 +104,7 @@ table {
   font-size: 15px;
 }
 
-.mapWrap .mapSide .select {
+.mapWrap .mapSide .sideNav .select {
   display: -webkit-box;
   display: -ms-flexbox;
   display: flex;
@@ -110,7 +114,7 @@ table {
   margin-top: 10px;
 }
 
-.mapWrap .mapSide .select .selectCity {
+.mapWrap .mapSide .sideNav .select .selectCity {
   width: 180px;
   padding: 5px 10px;
   border-radius: 16px;
@@ -118,7 +122,7 @@ table {
   font-size: 15px;
 }
 
-.mapWrap .mapSide .select .selectLocation {
+.mapWrap .mapSide .sideNav .select .selectLocation {
   width: 180px;
   padding: 5px 10px;
   border-radius: 16px;
@@ -126,13 +130,14 @@ table {
   font-size: 15px;
 }
 
-.mapWrap .mapSide .search {
+.mapWrap .mapSide .sideNav .search {
+  width: 180px;
+  padding: 5px 10px;
+  border-radius: 16px;
+  border: none;
+  font-size: 15px;
   margin-top: 10px;
   width: 360px;
-  padding: 5px 10px;
-  border-radius: 16px;
-  border: none;
-  font-size: 15px;
 }
 
 .mapWrap .mapSide .sideCard {
@@ -175,10 +180,6 @@ table {
   border-bottom: 1px solid #d9d9d9;
 }
 
-.mapWrap .mapSide .sideCard li p {
-  margin-top: 5px;
-}
-
 .mapWrap .mapSide .sideCard li .maskNum {
   display: -webkit-box;
   display: -ms-flexbox;
@@ -193,7 +194,7 @@ table {
 .mapWrap .mapSide .sideCard li .maskNum .maskNone {
   width: 140px;
   text-align: center;
-  background-color: #717172;
+  background-color: #3333;
   color: white;
   padding: 5px 10px;
   border-radius: 16px;
@@ -221,16 +222,12 @@ table {
   width: 75%;
 }
 
-.mapWrap .leaflet-popup-content {
+.mapWrap #map .leaflet-popup-content {
   font-family: "Microsoft JhengHei";
   width: 260px;
 }
 
-.mapWrap .leaflet-popup-content p {
-  margin: 5px 0 0 0;
-}
-
-.mapWrap .leaflet-popup-content .maskNum {
+.mapWrap #map .leaflet-popup-content .maskNum {
   display: -webkit-box;
   display: -ms-flexbox;
   display: flex;
@@ -241,16 +238,16 @@ table {
   font-weight: 700;
 }
 
-.mapWrap .leaflet-popup-content .maskNum .maskNone {
+.mapWrap #map .leaflet-popup-content .maskNum .maskNone {
   width: 100px;
   text-align: center;
-  background-color: #717172;
+  background-color: #3333;
   color: white;
   padding: 5px 10px;
   border-radius: 16px;
 }
 
-.mapWrap .leaflet-popup-content .maskNum .maskAdult {
+.mapWrap #map .leaflet-popup-content .maskNum .maskAdult {
   width: 100px;
   text-align: center;
   background-color: #73c0d8;
@@ -259,7 +256,7 @@ table {
   border-radius: 16px;
 }
 
-.mapWrap .leaflet-popup-content .maskNum .maskChild {
+.mapWrap #map .leaflet-popup-content .maskNum .maskChild {
   width: 100px;
   text-align: center;
   background-color: #ffa573;
@@ -304,7 +301,6 @@ table {
   margin-top: 5px;
   text-align: center;
   border-radius: 15px;
-  font: 12px "Helvetica Neue", Arial, Helvetica, sans-serif;
 }
 
 .marker-cluster span {

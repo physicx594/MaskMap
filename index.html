@@ -10,7 +10,7 @@
     <link href="https://cdnjs.cloudflare.com/ajax/libs/leaflet.markercluster/1.4.1/MarkerCluster.css"></link> 
     <link href="https://cdnjs.cloudflare.com/ajax/libs/leaflet.markercluster/1.4.1/MarkerCluster.Default.css"></link> 
     <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.12.1/css/all.css" integrity="sha384-v8BU367qNbs/aIZIxuivaU55N5GPF89WBerHoGA4QTcbUjYiLQtKdrfXnqAcXyTv" crossorigin="anonymous">
-    <link rel="stylesheet" href="all.css">
+    <link rel="stylesheet" href="./css/all.css">
 </head>
 <body>
     <div class="mapWrap">
@@ -24,29 +24,15 @@
                     </div>
                 </div>
                 <div class="select">
-                    <select class="selectCity">
-                    </select>
-                    <select class="selectLocation">
-                    </select>
+                    <select class="selectCity"></select>
+                    <select class="selectLocation"></select>
                 </div>
                 <div >
                     <input type="text" placeholder="搜尋地址..." class="search">
                 </div>
             </div>
             <div >
-                <ul class="sideCard">
-                    <!-- <li>
-                        <h1>${value.properties.name}</h1>
-                        <p>${value.properties.address}</p>
-                        <p>${value.properties.phone}</p>
-                        <p>${value.properties.note}</p><br>
-                        <p>更新時間 : ${value.properties.updated}</p>
-                        <div class="maskNum">
-                            <div class="maskAdult">成人 ${value.properties.mask_adult}</div>
-                            <div class="maskChild">兒童 ${value.properties.mask_child}</div>
-                        </div>
-                    </li> -->
-                </ul>
+                <ul class="sideCard"></ul>
             </div>
         </div>
         <div id="map"></div>
@@ -54,6 +40,6 @@
 
     <script src="https://unpkg.com/leaflet@1.6.0/dist/leaflet.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/leaflet.markercluster/1.4.1/leaflet.markercluster.js"></script>
-    <script src="all.js"></script>
+    <script src="./js/all.js"></script>
 </body>
 </html>
