@@ -1,0 +1,210 @@
+@import "./reset";
+
+.mapWrap {
+  width: 100%;
+  height: 100vh;
+  display: flex;
+  overflow: hidden;
+  font-family: "Microsoft JhengHei";
+  .mapSide {
+    width: 420px;
+    // height: 100%;
+    .sideNav {
+      background-color: #73c0d8;
+      color: white;
+      padding: 10px;
+      .sideTime {
+        display: flex;
+        justify-content: space-between;
+        .navLeft {
+          font-size: 30px;
+        }
+        .navRigrt {
+          text-align: right;
+          font-size: 12px;
+          p{
+            margin-top: 6px;
+          }
+          .sideId{
+            color: yellow;
+            font-weight: bold;
+            font-size: 15px;
+          }
+        }
+      }
+    }
+    .select {
+      display: flex;
+      justify-content: space-between;
+      margin-top: 10px;
+      .selectCity {
+        width: 180px;
+        padding: 5px 10px;
+        border-radius: 16px;
+        border: none;
+        font-size: 15px;
+      }
+      .selectLocation {
+        width: 180px;
+        padding: 5px 10px;
+        border-radius: 16px;
+        border: none;
+        font-size: 15px;
+      }
+    }
+      .search {
+        margin-top: 10px;
+        width: 360px;
+        padding: 5px 10px;
+        border-radius: 16px;
+        border: none;
+        font-size: 15px;
+
+      }
+  
+    .sideCard {
+      overflow-y: auto;
+      height: 592px;
+      background-color: white;
+      font-size: 15px;
+      color: #666666;
+      .cardTop{
+        display: flex;
+        justify-content: space-between;
+        a{
+          width: 24px;
+          height: 24px;
+          cursor: pointer;
+          color: #73c0d8;
+          &:hover{
+            color: #ffa573;
+          }
+        }
+      }
+      h1{
+        color: #333333;
+        font-size: 21px;
+        font-weight: bold;
+        margin: 5px 0;
+      }
+      li{
+        padding: 10px 20px;
+        border-bottom: 1px solid #d9d9d9;
+        p{
+          margin-top: 5px;
+        }
+        .maskNum {
+          display: flex;
+          justify-content: space-between;
+          margin: 10px 0;
+          font-weight: 700;
+          .maskNone{
+            width: 140px;
+            text-align: center;
+            background-color: #717172;
+            color: white;
+            padding: 5px 10px;
+            border-radius: 16px;
+          }
+          .maskAdult {
+            width: 140px;
+            text-align: center;
+            background-color: #73c0d8;
+            color: white;
+            padding: 5px 10px;
+            border-radius: 16px;
+          }
+          .maskChild {
+            width: 140px;
+            text-align: center;
+            background-color: #ffa573;
+            color: white;
+            padding: 5px 10px;
+            border-radius: 16px;
+          }
+        }
+    
+      }
+    }
+  }
+  #map {
+    width: 75%;
+    // border: 5px solid rgba(240, 194, 12, 0.6);
+  }
+  .leaflet-popup-content {
+    font-family: "Microsoft JhengHei";
+
+    width: 260px;
+    p {
+      margin: 5px 0 0 0;
+    }
+    .maskNum {
+      display: flex;
+      justify-content: space-between;
+      margin: 10px 0;
+      font-weight: 700;
+      .maskNone{
+        width: 100px;
+        text-align: center;
+        background-color: #717172;
+        color: white;
+        padding: 5px 10px;
+        border-radius: 16px;
+      }
+      .maskAdult {
+        width: 100px;
+        text-align: center;
+        background-color: #73c0d8;
+        color: white;
+        padding: 5px 10px;
+        border-radius: 16px;
+      }
+      .maskChild {
+        width: 100px;
+        text-align: center;
+        background-color: #ffa573;
+        color: white;
+        padding: 5px 10px;
+        border-radius: 16px;
+      }
+    }
+  }
+}
+.marker-cluster-small {
+  background-color: rgba(181, 226, 140, 0.6);
+}
+.marker-cluster-small div {
+  background-color: rgba(110, 204, 57, 0.6);
+}
+
+.marker-cluster-medium {
+  background-color: rgba(241, 211, 87, 0.6);
+}
+.marker-cluster-medium div {
+  background-color: rgba(240, 194, 12, 0.6);
+}
+
+.marker-cluster-large {
+  background-color: rgba(253, 156, 115, 0.6);
+}
+.marker-cluster-large div {
+  background-color: rgba(241, 128, 23, 0.6);
+}
+
+.marker-cluster {
+  background-clip: padding-box;
+  border-radius: 20px;
+}
+.marker-cluster div {
+  width: 30px;
+  height: 30px;
+  margin-left: 5px;
+  margin-top: 5px;
+
+  text-align: center;
+  border-radius: 15px;
+  font: 12px "Helvetica Neue", Arial, Helvetica, sans-serif;
+}
+.marker-cluster span {
+  line-height: 30px;
+}
