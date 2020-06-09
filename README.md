@@ -1,5 +1,7 @@
 # Maskmap | 全台口罩地圖
 ## [DEMO](https://physicx594.github.io/MaskMap/) | [Github](https://github.com/physicx594/MaskMap)
+<img src="https://github.com/physicx594/MaskMap/blob/master/README._img.jpg"  width=500  />
+
 ## 功能
   - 日期資訊（日期、可購買民眾之身分證末碼等）
   - 縣市、地區、選單搜尋
