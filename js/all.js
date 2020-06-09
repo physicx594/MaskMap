@@ -62,9 +62,47 @@ const upDataMap = (firstOneData) => {
       return "maskNone";
     } else return "maskChild";
   })();
+  const iconColor = (() => {
+    if (firstOneData.properties.mask_adult > 0 && firstOneData.properties.mask_child > 0) {
+      return new L.Icon({
+        iconUrl:
+          "https://cdn.rawgit.com/pointhi/leaflet-color-markers/master/img/marker-icon-2x-blue.png",
+        shadowUrl:
+          "https://cdnjs.cloudflare.com/ajax/libs/leaflet/0.7.7/images/marker-shadow.png",
+        iconSize: [25, 41],
+        iconAnchor: [12, 41],
+        popupAnchor: [1, -34],
+      });
+    }
+    if (
+      firstOneData.properties.mask_adult === 0 &&
+      firstOneData.properties.mask_child === 0
+    ) {
+      return new L.Icon({
+        iconUrl:
+          "https://cdn.rawgit.com/pointhi/leaflet-color-markers/master/img/marker-icon-2x-grey.png",
+        shadowUrl:
+          "https://cdnjs.cloudflare.com/ajax/libs/leaflet/0.7.7/images/marker-shadow.png",
+        iconSize: [25, 41],
+        iconAnchor: [12, 41],
+        popupAnchor: [1, -34],
+      });
+    }
+    return new L.Icon({
+      iconUrl:
+        "https://cdn.rawgit.com/pointhi/leaflet-color-markers/master/img/marker-icon-2x-red.png",
+      shadowUrl:
+        "https://cdnjs.cloudflare.com/ajax/libs/leaflet/0.7.7/images/marker-shadow.png",
+      iconSize: [25, 41],
+      iconAnchor: [12, 41],
+      popupAnchor: [1, -34],
+    });
+  })();
+
+
   map.setView([lat, lng], 16);
   L.marker([lat, lng], {
-    icon: greenIcon,
+    icon: iconColor,
   })
     .addTo(map)
     .bindPopup(
