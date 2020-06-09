@@ -15,6 +15,7 @@
 ## 技術
   - openstreetmap 圖資
   - leaflet 框架
+  - leaflet markercluster 套件
   - scss 設計樣式
   - Fetch API 抓第三方資料 
 
