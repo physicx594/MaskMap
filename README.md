@@ -1,5 +1,5 @@
 # Maskmap | 全台口罩地圖
-## [DEMO](https://physicx594.github.io/MaskMap/) | [Github](https://github.com/physicx594/MaskMap)
+## [DEMO](https://physicx594.github.io/MaskMap/)
 <img src="https://github.com/physicx594/MaskMap/blob/master/README._img.jpg"  width=1000  />
 
 ## 功能
@@ -18,7 +18,7 @@
   - scss 設計樣式
   - Fetch API 抓第三方資料 
 
-## 來源
-  口罩剩餘數量 [JSON API](https://raw.githubusercontent.com/kiang/pharmacies/master/json/points.json)
-  版面設計來自 [F2E 投稿設計師 - Wendy](https://challenge.thef2e.com/user/2259)
+## 其他
+  - 口罩剩餘數量 [JSON API](https://raw.githubusercontent.com/kiang/pharmacies/master/json/points.json)
+  - 版面設計來自 [F2E 投稿設計師 - Wendy](https://challenge.thef2e.com/user/2259)
 
