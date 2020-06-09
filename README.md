@@ -11,5 +11,14 @@
     - 成人、兒童都有貨，顯示藍色
     - 成人、兒童都沒貨，顯示灰色
     - 成人、兒童單一有貨，顯示紅色
-  
+
+## 技術
+  - openstreetmap 圖資
+  - leaflet 框架
+  - scss 設計樣式
+  - Fetch API 抓第三方資料 
+
+## 來源
+  口罩剩餘數量 [JSON API](https://raw.githubusercontent.com/kiang/pharmacies/master/json/points.json)
+  版面設計來自 [F2E 投稿設計師 - Wendy](https://challenge.thef2e.com/user/2259)
 
