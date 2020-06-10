@@ -15,10 +15,12 @@
 ## 技術
   - openstreetmap 圖資
   - leaflet 框架
+  - leaflet markercluster 套件
   - scss 設計樣式
   - Fetch API 抓第三方資料 
 
 ## 其他
   - 口罩剩餘數量 [JSON API](https://raw.githubusercontent.com/kiang/pharmacies/master/json/points.json)
   - 版面設計來自 [F2E 投稿設計師 - Wendy](https://challenge.thef2e.com/user/2259)
+  - 專案記錄過程 [心得、筆記](https://www.notion.so/Maskmap-e8f3ecc1863c4c948276ac2a6e9386f1) 
 
