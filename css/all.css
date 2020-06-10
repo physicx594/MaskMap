@@ -219,6 +219,8 @@ table {
 }
 
 .mapWrap #map {
+  -webkit-transition: all 0.5s;
+  transition: all 0.5s;
   width: 75%;
 }
 
@@ -267,6 +269,8 @@ table {
 
 .marker-cluster-small {
   background-color: rgba(181, 226, 140, 0.6);
+  -webkit-transform: all 1.5s;
+          transform: all 1.5s;
 }
 
 .marker-cluster-small div {

@@ -119,6 +119,7 @@
   }
 
   #map {
+    transition: all 0.5s;
     width: 75%;
     .leaflet-popup-content {
       font-family: "Microsoft JhengHei";
@@ -140,6 +141,7 @@
 }
 .marker-cluster-small {
   background-color: rgba(181, 226, 140, 0.6);
+  transform: all 1.5s;
 }
 .marker-cluster-small div {
   background-color: rgba(110, 204, 57, 0.6);

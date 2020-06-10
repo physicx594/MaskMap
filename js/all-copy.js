@@ -289,7 +289,6 @@ function fetchData(data) {
             [value.geometry.coordinates[1], value.geometry.coordinates[0]],
             18
           );
-
         });
         sideCard.innerHTML = addressALLStr;
         search.value = ""
@@ -312,39 +311,39 @@ function fetchData(data) {
 // 地圖店家資訊
 function mapInformation(data) {
   data.filter((value) => {
-    // const iconColor = (() => {
-    //   if (value.properties.mask_adult > 0 && value.properties.mask_child > 0) {
-    //     return new L.Icon({
-    //       iconUrl:
-    //         "https://cdn.rawgit.com/pointhi/leaflet-color-markers/master/img/marker-icon-2x-blue.png",
-    //       shadowUrl:
-    //         "https://cdnjs.cloudflare.com/ajax/libs/leaflet/0.7.7/images/marker-shadow.png",
-    //       iconSize: [25, 41],
-    //       iconAnchor: [12, 41],
-    //       popupAnchor: [1, -34],
-    //     });
-    //   }
-    //   if (value.properties.mask_adult === 0 && value.properties.mask_child === 0) {
-    //     return new L.Icon({
-    //       iconUrl:
-    //         "https://cdn.rawgit.com/pointhi/leaflet-color-markers/master/img/marker-icon-2x-grey.png",
-    //       shadowUrl:
-    //         "https://cdnjs.cloudflare.com/ajax/libs/leaflet/0.7.7/images/marker-shadow.png",
-    //       iconSize: [25, 41],
-    //       iconAnchor: [12, 41],
-    //       popupAnchor: [1, -34],
-    //     });
-    //   }
-    //   return new L.Icon({
-    //     iconUrl:
-    //       "https://cdn.rawgit.com/pointhi/leaflet-color-markers/master/img/marker-icon-2x-red.png",
-    //     shadowUrl:
-    //       "https://cdnjs.cloudflare.com/ajax/libs/leaflet/0.7.7/images/marker-shadow.png",
-    //     iconSize: [25, 41],
-    //     iconAnchor: [12, 41],
-    //     popupAnchor: [1, -34],
-    //   });
-    // })();
+    const iconColor = (() => {
+      if (value.properties.mask_adult > 0 && value.properties.mask_child > 0) {
+        return new L.Icon({
+          iconUrl:
+            "https://cdn.rawgit.com/pointhi/leaflet-color-markers/master/img/marker-icon-2x-blue.png",
+          shadowUrl:
+            "https://cdnjs.cloudflare.com/ajax/libs/leaflet/0.7.7/images/marker-shadow.png",
+          iconSize: [25, 41],
+          iconAnchor: [12, 41],
+          popupAnchor: [1, -34],
+        });
+      }
+      if (value.properties.mask_adult === 0 && value.properties.mask_child === 0) {
+        return new L.Icon({
+          iconUrl:
+            "https://cdn.rawgit.com/pointhi/leaflet-color-markers/master/img/marker-icon-2x-grey.png",
+          shadowUrl:
+            "https://cdnjs.cloudflare.com/ajax/libs/leaflet/0.7.7/images/marker-shadow.png",
+          iconSize: [25, 41],
+          iconAnchor: [12, 41],
+          popupAnchor: [1, -34],
+        });
+      }
+      return new L.Icon({
+        iconUrl:
+          "https://cdn.rawgit.com/pointhi/leaflet-color-markers/master/img/marker-icon-2x-red.png",
+        shadowUrl:
+          "https://cdnjs.cloudflare.com/ajax/libs/leaflet/0.7.7/images/marker-shadow.png",
+        iconSize: [25, 41],
+        iconAnchor: [12, 41],
+        popupAnchor: [1, -34],
+      });
+    })();
     // 數量顏色
     var adultMaskColor = (() => {
       if (value.properties.mask_adult === 0) {
